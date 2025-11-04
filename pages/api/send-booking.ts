@@ -22,15 +22,12 @@ export default async function handler(
     isCorporateBooking,
   } = req.body;
 
-  const branchEmails: Record<string, string> = {
-    "Triplicane Branch": "booking@alnoorpalace.in",
-    "Parrys Branch": "booking@alnoorresidency.in",
-    "Bengaluru Branch": "booking.blr@alnoorpalace.in",
-  };
+  // Single email for all hotels (update this email when provided)
+  const SINGLE_EMAIL = process.env.HOTEL_BOOKING_EMAIL || "booking@alnoorpalace.in";
 
   // Change the email to testing before sending a request...Developer())...
 
-  const recipientEmail = branchEmails[branch] || "booking@alnoorpalace.in";
+  const recipientEmail = SINGLE_EMAIL;
 
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,

@@ -23,13 +23,43 @@ const branchInfo = [
   },
 ];
 
-// Define room types with updated prices
-const roomTypes = {
-  Deluxe: 799,
-  "Deluxe Triple": 1500,
-  "Deluxe Quad": 2000,
-  "King Suite": 2500,
-  "Residential Suite": 3000,
+// Define branch-specific room types with prices
+const branchRoomTypes: Record<string, Record<string, number>> = {
+  "Triplicane Chennai": {
+    "Deluxe": 1000,
+    "Quadruple": 2000,
+    "Suite": 3000
+  },
+  "Parrys Chennai": {
+    "Residential Suite": 3000,
+    "Standard Room": 2500
+  },
+  "Electronic City Bengaluru": {
+    "Deluxe Double": 1400,
+    "Deluxe Family Room": 2400,
+    "Deluxe Twin": 1800
+  },
+  "Hyderabad": {
+    "Classic": 1000,
+    "Deluxe": 1500,
+    "Suite": 2000
+  },
+  "Koramangala Bengaluru": {
+    "Deluxe Double": 1300,
+    "Deluxe Twin": 1000,
+    "Junior Suite": 1700
+  },
+  "Ooty": {
+    "Residential Suite": 3000,
+    "Standard Room": 2500
+  },
+  "Koyambedu Chennai": {
+    "Deluxe": 800,
+    "Deluxe Quad": 2000,
+    "Deluxe Triple": 1500,
+    "King Suite": 2500,
+    "Residential Suite": 3000
+  }
 };
 
 const Header: React.FC<HeaderProps> = ({
@@ -49,7 +79,15 @@ const Header: React.FC<HeaderProps> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Available branches
-  const branches = ["Triplicane Chennai", "Parrys Chennai", "Bengaluru"];
+  const branches = [
+    "Triplicane Chennai",
+    "Parrys Chennai",
+    "Electronic City Bengaluru",
+    "Hyderabad",
+    "Koramangala Bengaluru",
+    "Ooty",
+    "Koyambedu Chennai"
+  ];
 
   // Get today's date in YYYY-MM-DD format
   const today = new Date().toISOString().split("T")[0];
@@ -79,13 +117,13 @@ const Header: React.FC<HeaderProps> = ({
 
   // Calculate total amount when room type or number of days changes
   useEffect(() => {
-    if (selectedRoom && numDays > 0) {
-      const roomPrice = roomTypes[selectedRoom as keyof typeof roomTypes] || 0;
+    if (selectedRoom && numDays > 0 && selectedBranch) {
+      const roomPrice = branchRoomTypes[selectedBranch]?.[selectedRoom] || 0;
       setTotalAmount(roomPrice * numDays);
     } else {
       setTotalAmount(0);
     }
-  }, [selectedRoom, numDays]);
+  }, [selectedRoom, numDays, selectedBranch]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -247,24 +285,27 @@ const Header: React.FC<HeaderProps> = ({
           >
             <ul>
               <li>
-                <a href="#home" className={styles.active}>
+                <a href="/#home" className={styles.active}>
                   Home
                 </a>
               </li>
               <li>
-                <a href="#about">About</a>
+                <a href="/#about">About</a>
               </li>
               <li>
-                <a href="#rooms">Rooms</a>
+                <a href="/#rooms">Rooms</a>
               </li>
               <li>
-                <a href="#services">Services</a>
+                <a href="/hotels" onClick={(e) => { e.preventDefault(); window.location.href = '/hotels'; }}>Hotels</a>
               </li>
               <li>
-                <a href="#contact">Contact</a>
+                <a href="/#services">Services</a>
+              </li>
+              <li>
+                <a href="/#contact">Contact</a>
               </li>
               <li className={styles.mobileOnly}>
-                <a href="#contact">Contact Us</a>
+                <a href="/#contact">Contact Us</a>
               </li>
             </ul>
           </nav>
@@ -475,84 +516,25 @@ const Header: React.FC<HeaderProps> = ({
                       />
 
                       <div className={styles.roomOptions}>
-                        <div
-                          className={`${styles.roomOption} ${
-                            selectedRoom === "Deluxe" ? styles.selectedRoom : ""
-                          }`}
-                          onClick={() => setSelectedRoom("Deluxe")}
-                        >
-                          <div className={styles.roomHeader}>
-                            <h3>Deluxe</h3>
-                            <span className={styles.price}>₹799 onwards</span>
-                          </div>
-                          <p>1 Bed • 1 Bath • Free WiFi</p>
-                        </div>
-
-                        <div
-                          className={`${styles.roomOption} ${
-                            selectedRoom === "Deluxe Triple"
-                              ? styles.selectedRoom
-                              : ""
-                          }`}
-                          onClick={() => setSelectedRoom("Deluxe Triple")}
-                        >
-                          <div className={styles.roomHeader}>
-                            <h3>Deluxe Triple</h3>
-                            <span className={styles.price}>₹1,500 onwards</span>
-                          </div>
-                          <p>3 Beds • 1 Bath • Free WiFi</p>
-                        </div>
-
-                        <div
-                          className={`${styles.roomOption} ${
-                            selectedRoom === "Deluxe Quad"
-                              ? styles.selectedRoom
-                              : ""
-                          }`}
-                          onClick={() => setSelectedRoom("Deluxe Quad")}
-                        >
-                          <div className={styles.roomHeader}>
-                            <h3>Deluxe Quad</h3>
-                            <span className={styles.price}>₹2,000 onwards</span>
-                          </div>
-                          <p>4 Beds • 1 Bath • Free WiFi</p>
-                        </div>
-
-                        <div
-                          className={`${styles.roomOption} ${
-                            styles.featuredRoom
-                          } ${
-                            selectedRoom === "King Suite"
-                              ? styles.selectedRoom
-                              : ""
-                          }`}
-                          onClick={() => setSelectedRoom("King Suite")}
-                        >
-                          <div className={styles.roomHeader}>
-                            <h3>King Suite</h3>
-                            <span className={styles.featured}>Featured</span>
-                            <span className={styles.price}>₹2,500 onwards</span>
-                          </div>
-                          <p>2 Beds • 1 Bath • Free WiFi</p>
-                        </div>
-
-                        <div
-                          className={`${styles.roomOption} ${
-                            styles.featuredRoom
-                          } ${
-                            selectedRoom === "Residential Suite"
-                              ? styles.selectedRoom
-                              : ""
-                          }`}
-                          onClick={() => setSelectedRoom("Residential Suite")}
-                        >
-                          <div className={styles.roomHeader}>
-                            <h3>Residential Suite</h3>
-                            <span className={styles.featured}>Featured</span>
-                            <span className={styles.price}>₹3,000 onwards</span>
-                          </div>
-                          <p>2 Beds • 1 Bath • Free WiFi</p>
-                        </div>
+                        {selectedBranch && branchRoomTypes[selectedBranch] ? (
+                          Object.entries(branchRoomTypes[selectedBranch]).map(([roomName, price]) => (
+                            <div
+                              key={roomName}
+                              className={`${styles.roomOption} ${
+                                selectedRoom === roomName ? styles.selectedRoom : ""
+                              }`}
+                              onClick={() => setSelectedRoom(roomName)}
+                            >
+                              <div className={styles.roomHeader}>
+                                <h3>{roomName}</h3>
+                                <span className={styles.price}>₹{price.toLocaleString()} onwards</span>
+                              </div>
+                              <p>Free WiFi</p>
+                            </div>
+                          ))
+                        ) : (
+                          <p>Please select a branch first</p>
+                        )}
                       </div>
                     </div>
 
@@ -578,9 +560,7 @@ const Header: React.FC<HeaderProps> = ({
                           <div className={styles.totalCalculation}>
                             {numDays} {numDays === 1 ? "day" : "days"} ×{" "}
                             {formatCurrency(
-                              roomTypes[
-                                selectedRoom as keyof typeof roomTypes
-                              ] || 0
+                              branchRoomTypes[selectedBranch]?.[selectedRoom] || 0
                             )}
                           </div>
                         )}

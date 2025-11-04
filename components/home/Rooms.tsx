@@ -69,9 +69,29 @@ const branches: BranchData[] = [
     email: "booking@alnoorresidency.in",
   },
   {
-    name: "Bengaluru Branch",
+    name: "Electronic City Branch",
     phone: "8951777883",
-    email: "booking.blr@alnoorpalace.in",
+    email: "booking@alnoorpalace.in",
+  },
+  {
+    name: "Hyderabad Branch",
+    phone: "8951777883",
+    email: "booking@alnoorpalace.in",
+  },
+  {
+    name: "Koramangala Branch",
+    phone: "8951777883",
+    email: "booking@alnoorpalace.in",
+  },
+  {
+    name: "Ooty Branch",
+    phone: "8951777883",
+    email: "booking@alnoorpalace.in",
+  },
+  {
+    name: "Koyambedu Branch",
+    phone: "8951777883",
+    email: "booking@alnoorpalace.in",
   },
 ];
 
@@ -170,6 +190,8 @@ const Rooms: React.FC<RoomsProps> = ({ rooms = defaultRooms, onBookNow }) => {
   const [selectedRoom, setSelectedRoom] = useState<RoomData | null>(null);
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [currentView, setCurrentView] = useState<'branches' | 'rooms'>('branches');
+  const [selectedBranchName, setSelectedBranchName] = useState<string | null>(null);
   const [formData, setFormData] = useState<BookingFormData>({
     name: "",
     phone: "",
@@ -182,6 +204,56 @@ const Rooms: React.FC<RoomsProps> = ({ rooms = defaultRooms, onBookNow }) => {
   });
   const [formErrors, setFormErrors] = useState<Partial<BookingFormData>>({});
   const modalRef = useRef<HTMLDivElement>(null);
+
+  // Branch data for selection
+  const branchesList = [
+    { name: "Triplicane", city: "Chennai", displayName: "Triplicane Branch" },
+    { name: "Parrys", city: "Chennai", displayName: "Parrys Branch" },
+    { name: "Electronic City", city: "Bengaluru", displayName: "Electronic City Branch" },
+    { name: "Hyderabad", city: "Hyderabad", displayName: "Hyderabad Branch" },
+    { name: "Koramangala", city: "Bengaluru", displayName: "Koramangala Branch" },
+    { name: "Ooty", city: "Ooty", displayName: "Ooty Branch" },
+    { name: "Koyambedu", city: "Chennai", displayName: "Koyambedu Branch" }
+  ];
+
+  // Branch-specific room types mapping
+  const branchRoomTypesMap: Record<string, { name: string; price: number; features: string[] }[]> = {
+    "Triplicane Branch": [
+      { name: "Deluxe", price: 1000, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Quadruple", price: 2000, features: ["2 Beds", "1 Bath", "Max 5 Pax"] },
+      { name: "Suite", price: 3000, features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
+    ],
+    "Parrys Branch": [
+      { name: "Residential Suite", price: 3000, features: ["2 Beds", "2 Baths", "Max 4 Pax"] },
+      { name: "Standard Room", price: 2500, features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
+    ],
+    "Electronic City Branch": [
+      { name: "Deluxe Double", price: 1400, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Deluxe Family Room", price: 2400, features: ["2 Beds", "1 Bath", "Max 4 Pax"] },
+      { name: "Deluxe Twin", price: 1800, features: ["2 Beds", "1 Bath", "Max 3 Pax"] }
+    ],
+    "Hyderabad Branch": [
+      { name: "Classic", price: 1000, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Deluxe", price: 1500, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Suite", price: 2000, features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
+    ],
+    "Koramangala Branch": [
+      { name: "Deluxe Double", price: 1300, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Deluxe Twin", price: 1000, features: ["2 Beds", "1 Bath", "Max 3 Pax"] },
+      { name: "Junior Suite", price: 1700, features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
+    ],
+    "Ooty Branch": [
+      { name: "Residential Suite", price: 3000, features: ["2 Beds", "2 Baths", "Max 4 Pax"] },
+      { name: "Standard Room", price: 2500, features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
+    ],
+    "Koyambedu Branch": [
+      { name: "Deluxe", price: 800, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Deluxe Quad", price: 2000, features: ["2 Beds", "1 Bath", "Max 4 Pax"] },
+      { name: "Deluxe Triple", price: 1500, features: ["2 Beds", "1 Bath", "Max 3 Pax"] },
+      { name: "King Suite", price: 2500, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Residential Suite", price: 3000, features: ["2 Beds", "2 Baths", "Max 4 Pax"] }
+    ]
+  };
 
   // Simulate loading effect
   useEffect(() => {
@@ -235,6 +307,29 @@ const Rooms: React.FC<RoomsProps> = ({ rooms = defaultRooms, onBookNow }) => {
     }
   };
 
+  // Handle branch selection
+  const handleBranchSelect = (branchDisplayName: string) => {
+    setSelectedBranchName(branchDisplayName);
+    setCurrentView('rooms');
+  };
+
+  // Handle room type selection from branch rooms
+  const handleRoomTypeSelect = (roomName: string, roomPrice: number) => {
+    // Create a RoomData object from selected room type
+    const roomData: RoomData = {
+      title: roomName,
+      image: "/Images/room-1 1.png",
+      bathCount: 1,
+      bedCount: 1,
+      hasWifi: true,
+      description: `Premium ${roomName} room at ${selectedBranchName}`,
+      pricePerNight: roomPrice,
+      amenities: commonAmenities,
+      inclusions: ["TV", "Electric Kettle", "Toiletries"]
+    };
+    handleBookNow(roomData);
+  };
+
   // Handle book now button click
   const handleBookNow = (room: RoomData) => {
     setSelectedRoom(room);
@@ -251,7 +346,7 @@ const Rooms: React.FC<RoomsProps> = ({ rooms = defaultRooms, onBookNow }) => {
       name: "",
       phone: "",
       email: "",
-      branch: "Triplicane Branch",
+      branch: selectedBranchName || "Triplicane Branch",
       checkInDate: formatDateForInput(tomorrow),
       checkOutDate: formatDateForInput(dayAfterTomorrow),
       numberOfDays: 1,
@@ -428,103 +523,87 @@ console.log("Branch",formData.branch);
       <h3 className={styles.subHeading}>
         <span>More than </span>
         <span className={styles.accentText}>75+ ROOMS</span>
-        <span> available across 3 branches</span>
+        <span> available across 7 branches</span>
       </h3>
 
-      <div className={styles.roomsGrid}>
-        {rooms.map((room, index) => (
-          <div
-            key={`room-${index}`}
-            className={`${styles.flipCard} ${isLoading ? styles.shimmer : ""}`}
-            style={{ animationDelay: `${index * 0.1}s` }}
-          >
+      {currentView === 'branches' && (
+        <div className={styles.roomsGrid}>
+          {branchesList.map((branch, index) => (
             <div
-              className={`${styles.flipCardInner} ${
-                flippedIndex === index ? styles.flipped : ""
-              }`}
+              key={index}
+              className={`${styles.flipCard} ${isLoading ? styles.shimmer : ""}`}
+              style={{ animationDelay: `${index * 0.1}s` }}
+              onClick={() => handleBranchSelect(branch.displayName)}
             >
-              {/* FRONT */}
               <div className={styles.flipCardFront}>
-                {room.featured && <div className={styles.ribbon}>Featured</div>}
                 <Image
                   className={styles.roomImage}
-                  src={room.image}
-                  alt={room.title}
+                  src="/Images/room-1 1.png"
+                  alt={branch.name}
                   width={400}
                   height={180}
-                  priority={index < 2}
                 />
                 <div className={styles.cardTitle}>
-                  <h3>{room.title}</h3>
-                  <p className={styles.cardPrice}>
-                    ₹{formatPrice(room.pricePerNight)} onwards
-                  </p>
+                  <h3>{branch.name}</h3>
+                  <p className={styles.cardPrice}>{branch.city}</p>
                 </div>
                 <div className={styles.amenitiesGrid}>
-                  {room.amenities?.slice(0, 5).map((amenity, idx) => (
-                    <span key={idx}>
-                      {getAmenityIcon(amenity)} {amenity}
-                    </span>
-                  ))}
-                  {room.amenities && room.amenities.length > 5 && (
-                    <span>+{room.amenities.length - 5} more</span>
-                  )}
+                  <span>Select to view rooms</span>
                 </div>
-                <button
-                  className={styles.viewDetailsBtn}
-                  onClick={() => handleViewDetails(index)}
-                >
-                  View Details
-                </button>
-              </div>
-
-              {/* BACK */}
-              <div className={styles.flipCardBack}>
-                <button
-                  className={styles.closeDetailsBtn}
-                  onClick={() => setFlippedIndex(null)}
-                >
-                  ×
-                </button>
-                <h3 className={styles.backTitle}>{room.title}</h3>
-
-                <p className={styles.cardDescription}>{room.description}</p>
-
-                <div className={styles.iconRow}>
-                  <span>
-                    <FaBed className={styles.iconBlue} /> {room.bedCount}{" "}
-                    {room.bedCount > 1 ? "Beds" : "Bed"}
-                  </span>
-                  <span>
-                    <FaBath className={styles.iconBlue} /> {room.bathCount}{" "}
-                    {room.bathCount > 1 ? "Baths" : "Bath"}
-                  </span>
-                  {room.hasWifi && (
-                    <span>
-                      <FaWifi className={styles.iconBlue} /> Free WiFi
-                    </span>
-                  )}
-                </div>
-
-                <div className={styles.roomHighlights}>
-                  <p className={styles.highlightsTitle}>Room Inclusions:</p>
-                  <div className={styles.amenitiesGrid}>
-                    {room.inclusions?.map((inclusion, idx) => (
-                      <span key={idx}>{inclusion}</span>
-                    ))}
-                  </div>
-                </div>
-                <button
-                  className={styles.bookNowBtn}
-                  onClick={() => handleBookNow(room)}
-                >
-                  Book Now • ₹{formatPrice(room.pricePerNight)} onwards/night
+                <button className={styles.viewDetailsBtn}>
+                  View Rooms
                 </button>
               </div>
             </div>
+          ))}
+        </div>
+      )}
+
+      {currentView === 'rooms' && selectedBranchName && (
+        <>
+          <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
+            <button 
+              onClick={() => { setCurrentView('branches'); setSelectedBranchName(null); }}
+              style={{ padding: '0.5rem 1rem', background: '#e8a345', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+            >
+              ← Back to Branches
+            </button>
+            <h4 style={{ marginTop: '1rem', color: '#333' }}>Rooms at {selectedBranchName}</h4>
           </div>
-        ))}
-      </div>
+          <div className={styles.roomsGrid}>
+            {branchRoomTypesMap[selectedBranchName]?.map((roomType, index) => (
+              <div
+                key={index}
+                className={`${styles.flipCard} ${isLoading ? styles.shimmer : ""}`}
+                style={{ animationDelay: `${index * 0.1}s` }}
+                onClick={() => handleRoomTypeSelect(roomType.name, roomType.price)}
+              >
+                <div className={styles.flipCardFront}>
+                  <Image
+                    className={styles.roomImage}
+                    src="/Images/room-1 1.png"
+                    alt={roomType.name}
+                    width={400}
+                    height={180}
+                  />
+                  <div className={styles.cardTitle}>
+                    <h3>{roomType.name}</h3>
+                    <p className={styles.cardPrice}>₹{formatPrice(roomType.price)} onwards</p>
+                  </div>
+                  <div className={styles.amenitiesGrid}>
+                    {roomType.features.map((feature, idx) => (
+                      <span key={idx}>{feature}</span>
+                    ))}
+                  </div>
+                  <button className={styles.viewDetailsBtn}>
+                    Select Room
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
 
       {/* REMOVED: Corporate Section component from here */}
 
