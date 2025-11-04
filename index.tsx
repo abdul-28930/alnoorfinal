@@ -290,12 +290,47 @@ const LandingPage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Al Noor Group of Hotels - Luxury Accommodations</title>
+        <title>Al Noor Group of Hotels - Luxury Accommodations in Chennai, Bengaluru & More</title>
         <meta
           name="description"
-          content="Experience luxury accommodations and exceptional service at Al Noor Group of Hotels. Book your stay today!"
+          content="Experience luxury accommodations across India at Al Noor Group of Hotels. Book rooms in Chennai (Triplicane, Parrys), Bengaluru, Hyderabad, Koramangala & Ooty. Premium service guaranteed."
         />
+        <meta name="keywords" content="hotels in chennai, hotels in bengaluru, hotels in hyderabad, hotels in ooty, luxury hotels india, budget hotels india, al noor hotels, triplicane hotels chennai, hotels in triplicane, parrys hotels chennai, hotels in parrys, hotels near parrys corner, electronic city hotels bangalore, hotels in electronic city, hotels near electronic city phase 1, koramangala hotels bangalore, hotels in koramangala, koyambedu hotels chennai, hotels in koyambedu, hotels near koyambedu bus stand, hyderabad hotels, budget hotels hyderabad, ooty hotels, hotels in ooty hill station, cheap hotels chennai, affordable hotels bangalore, ac rooms chennai, guest house chennai, lodge chennai triplicane, hotel booking india, online hotel booking, hotel near me" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="canonical" href="https://alnoorpalace.in/" />
+        
+        {/* Open Graph Meta Tags */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Al Noor Group of Hotels - Luxury Accommodations" />
+        <meta property="og:description" content="Experience luxury accommodations and exceptional service at Al Noor Group of Hotels across India." />
+        <meta property="og:url" content="https://alnoorpalace.in/" />
+        <meta property="og:image" content="https://alnoorpalace.in/Images/Finlogo.png" />
+        
+        {/* Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Al Noor Group of Hotels" />
+        <meta name="twitter:description" content="Luxury accommodations across India" />
+        <meta name="twitter:image" content="https://alnoorpalace.in/Images/Finlogo.png" />
+        
+        {/* Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Hotel",
+              "name": "Al Noor Group of Hotels",
+              "description": "Luxury hotel chain across India",
+              "url": "https://alnoorpalace.in",
+              "telephone": "+91-7338944222",
+              "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "IN"
+              }
+            })
+          }}
+        />
+        
         <link rel="icon" href="/Images/Finlogo.png" />
       </Head>
 

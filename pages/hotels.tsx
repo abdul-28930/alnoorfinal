@@ -93,7 +93,22 @@ const HotelsPage = () => {
     >
       <div className={styles.hotelsPage}>
         <Head>
-          <title>Our Hotels - Al Noor Group of Hotels</title>
+          <title>Our Hotels - Al Noor Group of Hotels Locations</title>
+          <meta
+            name="description"
+            content="Explore Al Noor Group of Hotels locations: Triplicane Chennai, Parrys Chennai, Electronic City Bengaluru, Hyderabad, Koramangala, Ooty. Premium rooms and services at every branch."
+          />
+          <meta name="keywords" content="al noor hotels locations, al noor palace hotels, hotels in triplicane chennai, triplicane hotels near me, hotels in parrys chennai, parrys corner hotels, hotels in electronic city bangalore, electronic city hotels near me, hotels in koramangala bangalore, koramangala hotels near me, hotels in koyambedu chennai, koyambedu hotels near bus stand, hotels in hyderabad, hyderabad budget hotels, hotels in ooty, ooty hill station hotels, chennai hotels list, bangalore hotels list, budget hotels chennai, cheap hotels bangalore, affordable hotels hyderabad, hotel branches india, hotel locations india" />
+          <link rel="canonical" href="https://alnoorpalace.in/hotels" />
+          
+          {/* Open Graph Meta Tags */}
+          <meta property="og:type" content="website" />
+          <meta property="og:title" content="Our Hotels - Al Noor Group" />
+          <meta property="og:description" content="Discover our luxury hotel locations across India" />
+          <meta property="og:url" content="https://alnoorpalace.in/hotels" />
+          <meta property="og:image" content="https://alnoorpalace.in/Images/Finlogo.png" />
+          
+          <link rel="icon" href="/Images/Finlogo.png" />
         </Head>
 
         <div className={styles.hotelsContainer}>
