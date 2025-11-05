@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import styles from "../../index.module.css";
 import {
@@ -65,13 +66,33 @@ const branches: BranchData[] = [
   },
   {
     name: "Parrys Branch",
-    phone: "7338955111",
-    email: "booking@alnoorresidency.in",
+    phone: "7338944222",
+    email: "booking@alnoorpalace.in",
   },
   {
-    name: "Bengaluru Branch",
-    phone: "8951777883",
-    email: "booking.blr@alnoorpalace.in",
+    name: "Electronic City Branch",
+    phone: "7338944222",
+    email: "booking@alnoorpalace.in",
+  },
+  {
+    name: "Hyderabad Branch",
+    phone: "7338944222",
+    email: "booking@alnoorpalace.in",
+  },
+  {
+    name: "Koramangala Branch",
+    phone: "7338944222",
+    email: "booking@alnoorpalace.in",
+  },
+  {
+    name: "Ooty Branch",
+    phone: "7338944222",
+    email: "booking@alnoorpalace.in",
+  },
+  {
+    name: "Koyambedu Branch",
+    phone: "7338944222",
+    email: "booking@alnoorpalace.in",
   },
 ];
 
@@ -165,11 +186,15 @@ interface RoomsProps {
 }
 
 const Rooms: React.FC<RoomsProps> = ({ rooms = defaultRooms, onBookNow }) => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [flippedIndex, setFlippedIndex] = useState<number | null>(null);
   const [selectedRoom, setSelectedRoom] = useState<RoomData | null>(null);
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [currentView, setCurrentView] = useState<'branches' | 'rooms'>('branches');
+  const [selectedBranchName, setSelectedBranchName] = useState<string | null>(null);
+  const [filterCity, setFilterCity] = useState<string>("");
   const [formData, setFormData] = useState<BookingFormData>({
     name: "",
     phone: "",
@@ -182,6 +207,58 @@ const Rooms: React.FC<RoomsProps> = ({ rooms = defaultRooms, onBookNow }) => {
   });
   const [formErrors, setFormErrors] = useState<Partial<BookingFormData>>({});
   const modalRef = useRef<HTMLDivElement>(null);
+  const initRef = useRef<boolean>(false);
+
+  // Branch data for selection
+  const branchesList = [
+    { name: "Triplicane", city: "Chennai", displayName: "Triplicane Branch" },
+    { name: "Parrys", city: "Chennai", displayName: "Parrys Branch" },
+    { name: "Electronic City", city: "Bengaluru", displayName: "Electronic City Branch" },
+    { name: "Hyderabad", city: "Hyderabad", displayName: "Hyderabad Branch" },
+    { name: "Koramangala", city: "Bengaluru", displayName: "Koramangala Branch" },
+    { name: "Ooty", city: "Ooty", displayName: "Ooty Branch" },
+    { name: "Koyambedu", city: "Chennai", displayName: "Koyambedu Branch" }
+  ];
+
+  // Unique cities for filter dropdown
+  const cities = Array.from(new Set(branchesList.map(b => b.city)));
+
+  // Branch-specific room types mapping
+  const branchRoomTypesMap: Record<string, { name: string; price: number; features: string[] }[]> = {
+    "Triplicane Branch": [
+      { name: "Deluxe", price: 899, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Quadruple", price: 1999, features: ["2 Beds", "1 Bath", "Max 5 Pax"] },
+      { name: "Suite", price: 2999, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Triple", price: 1499, features: ["2 Beds", "1 Bath", "Max 3 Pax"] }
+    ],
+    "Parrys Branch": [
+      { name: "Deluxe", price: 1499, features: ["2 Beds", "2 Baths", "Max 4 Pax"] },
+      { name: "Standard", price: 799, features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
+    ],
+    "Electronic City Branch": [
+      { name: "Deluxe", price: 899, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Deluxe Fam", price: 1999, features: ["2 Beds", "1 Bath", "Max 4 Pax"] },
+      { name: "Deluxe Twin", price: 1499, features: ["2 Beds", "1 Bath", "Max 3 Pax"] }
+    ],
+    "Hyderabad Branch": [
+      { name: "Classic", price: 899, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Deluxe", price: 1499, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Suite", price: 1999, features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
+    ],
+    "Koramangala Branch": [
+      { name: "Deluxe Double", price: 899, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Deluxe Twin", price: 1499, features: ["2 Beds", "1 Bath", "Max 3 Pax"] },
+      { name: "Junior Suite", price: 1999, features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
+    ],
+    "Ooty Branch": [
+      { name: "Deluxe", price: 1499, features: ["2 Beds", "2 Baths", "Max 4 Pax"] },
+      { name: "Standard", price: 899, features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
+    ],
+    "Koyambedu Branch": [
+      { name: "Deluxe", price: 899, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Deluxe Quad", price: 1999, features: ["2 Beds", "1 Bath", "Max 4 Pax"] }
+    ]
+  };
 
   // Simulate loading effect
   useEffect(() => {
@@ -191,16 +268,7 @@ const Rooms: React.FC<RoomsProps> = ({ rooms = defaultRooms, onBookNow }) => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Scroll modal into view when it opens
-  useEffect(() => {
-    if (showBookingForm && modalRef.current) {
-      // Scroll the modal into view with a smooth animation
-      modalRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-    }
-  }, [showBookingForm]);
+  // Removed auto-scrolling to prevent page jump when opening the form
 
   // Calculate number of days between check-in and check-out dates
   useEffect(() => {
@@ -235,6 +303,60 @@ const Rooms: React.FC<RoomsProps> = ({ rooms = defaultRooms, onBookNow }) => {
     }
   };
 
+  // Handle branch selection
+  const handleBranchSelect = (branchDisplayName: string) => {
+    setSelectedBranchName(branchDisplayName);
+    setCurrentView('rooms');
+    // Update URL query for browser history/back support
+    const nextQuery = { ...router.query, branch: branchDisplayName } as Record<string, string>;
+    router.push({ pathname: router.pathname, query: nextQuery }, undefined, { shallow: true });
+  };
+
+  // Handle room type selection from branch rooms
+  const handleRoomTypeSelect = (roomName: string, roomPrice: number) => {
+    // Create a RoomData object from selected room type
+    const roomData: RoomData = {
+      title: roomName,
+      image: "/Images/room-1 1.png",
+      bathCount: 1,
+      bedCount: 1,
+      hasWifi: true,
+      description: `Premium ${roomName} room at ${selectedBranchName}`,
+      pricePerNight: roomPrice,
+      amenities: commonAmenities,
+      inclusions: ["TV", "Electric Kettle", "Toiletries"]
+    };
+    handleBookNow(roomData);
+  };
+
+  // Sync component state with URL (browser back/forward)
+  useEffect(() => {
+    const q = router.query as Record<string, string | string[] | undefined>;
+    const branchParam = typeof q.branch === 'string' ? q.branch : undefined;
+    if (branchParam) {
+      if (currentView !== 'rooms' || selectedBranchName !== branchParam) {
+        setSelectedBranchName(branchParam);
+        setCurrentView('rooms');
+      }
+    } else {
+      if (currentView !== 'branches') {
+        setCurrentView('branches');
+        setSelectedBranchName(null);
+      }
+    }
+  }, [router.query]);
+
+  // On initial load, always clear branch query so refresh lands on home
+  useEffect(() => {
+    if (!router.isReady || initRef.current) return;
+    initRef.current = true;
+    if ((router.query as any)?.branch) {
+      router.replace({ pathname: router.pathname }, undefined, { shallow: true });
+      setCurrentView('branches');
+      setSelectedBranchName(null);
+    }
+  }, [router.isReady]);
+
   // Handle book now button click
   const handleBookNow = (room: RoomData) => {
     setSelectedRoom(room);
@@ -251,7 +373,7 @@ const Rooms: React.FC<RoomsProps> = ({ rooms = defaultRooms, onBookNow }) => {
       name: "",
       phone: "",
       email: "",
-      branch: "Triplicane Branch",
+      branch: selectedBranchName || "Triplicane Branch",
       checkInDate: formatDateForInput(tomorrow),
       checkOutDate: formatDateForInput(dayAfterTomorrow),
       numberOfDays: 1,
@@ -428,103 +550,111 @@ console.log("Branch",formData.branch);
       <h3 className={styles.subHeading}>
         <span>More than </span>
         <span className={styles.accentText}>75+ ROOMS</span>
-        <span> available across 3 branches</span>
+        <span> available across 7 branches</span>
       </h3>
 
-      <div className={styles.roomsGrid}>
-        {rooms.map((room, index) => (
-          <div
-            key={`room-${index}`}
-            className={`${styles.flipCard} ${isLoading ? styles.shimmer : ""}`}
-            style={{ animationDelay: `${index * 0.1}s` }}
-          >
-            <div
-              className={`${styles.flipCardInner} ${
-                flippedIndex === index ? styles.flipped : ""
-              }`}
+      {currentView === 'branches' && (
+        <>
+          <div style={{ maxWidth: '1200px', margin: '0 auto 1rem', display: 'flex', justifyContent: 'flex-end' }}>
+            <label htmlFor="cityFilter" style={{ marginRight: '8px', color: '#555' }}>Filter by city:</label>
+            <select
+              id="cityFilter"
+              value={filterCity}
+              onChange={(e) => setFilterCity(e.target.value)}
+              style={{ padding: '8px 10px', border: '1px solid #ddd', borderRadius: 6 }}
             >
-              {/* FRONT */}
-              <div className={styles.flipCardFront}>
-                {room.featured && <div className={styles.ribbon}>Featured</div>}
+              <option value="">All</option>
+              {cities.map((c) => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
+          </div>
+          <div className={styles.branchGrid}>
+          {(filterCity ? branchesList.filter(b => b.city === filterCity) : branchesList).map((branch, index) => (
+            <div
+              key={index}
+              className={`${styles.flipCard} ${styles.branchCard} ${styles.popIn} ${styles.cardFadeIn} ${isLoading ? styles.shimmer : ""}`}
+              style={{ animationDelay: `${index * 0.1}s` }}
+              onClick={() => handleBranchSelect(branch.displayName)}
+            >
+              <div className={`${styles.flipCardFront} ${styles.branchCardFront}`}>
                 <Image
                   className={styles.roomImage}
-                  src={room.image}
-                  alt={room.title}
+                  src="/Images/room-1 1.png"
+                  alt={branch.name}
                   width={400}
                   height={180}
-                  priority={index < 2}
                 />
-                <div className={styles.cardTitle}>
-                  <h3>{room.title}</h3>
-                  <p className={styles.cardPrice}>
-                    ₹{formatPrice(room.pricePerNight)} onwards
-                  </p>
-                </div>
-                <div className={styles.amenitiesGrid}>
-                  {room.amenities?.slice(0, 5).map((amenity, idx) => (
-                    <span key={idx}>
-                      {getAmenityIcon(amenity)} {amenity}
-                    </span>
-                  ))}
-                  {room.amenities && room.amenities.length > 5 && (
-                    <span>+{room.amenities.length - 5} more</span>
-                  )}
-                </div>
-                <button
-                  className={styles.viewDetailsBtn}
-                  onClick={() => handleViewDetails(index)}
-                >
-                  View Details
-                </button>
-              </div>
-
-              {/* BACK */}
-              <div className={styles.flipCardBack}>
-                <button
-                  className={styles.closeDetailsBtn}
-                  onClick={() => setFlippedIndex(null)}
-                >
-                  ×
-                </button>
-                <h3 className={styles.backTitle}>{room.title}</h3>
-
-                <p className={styles.cardDescription}>{room.description}</p>
-
-                <div className={styles.iconRow}>
-                  <span>
-                    <FaBed className={styles.iconBlue} /> {room.bedCount}{" "}
-                    {room.bedCount > 1 ? "Beds" : "Bed"}
-                  </span>
-                  <span>
-                    <FaBath className={styles.iconBlue} /> {room.bathCount}{" "}
-                    {room.bathCount > 1 ? "Baths" : "Bath"}
-                  </span>
-                  {room.hasWifi && (
-                    <span>
-                      <FaWifi className={styles.iconBlue} /> Free WiFi
-                    </span>
-                  )}
-                </div>
-
-                <div className={styles.roomHighlights}>
-                  <p className={styles.highlightsTitle}>Room Inclusions:</p>
-                  <div className={styles.amenitiesGrid}>
-                    {room.inclusions?.map((inclusion, idx) => (
-                      <span key={idx}>{inclusion}</span>
-                    ))}
+                <div className={`${styles.cardTitle} ${styles.branchCardTitle}`}>
+                  <div>
+                    <div className={styles.branchAreaLabel}>Area name</div>
+                    <div className={styles.branchAreaValue}>{branch.name}</div>
                   </div>
                 </div>
-                <button
-                  className={styles.bookNowBtn}
-                  onClick={() => handleBookNow(room)}
-                >
-                  Book Now • ₹{formatPrice(room.pricePerNight)} onwards/night
+                <p className={styles.branchCity}>{branch.city}</p>
+                <button className={styles.viewDetailsBtn}>
+                  View Rooms
                 </button>
               </div>
             </div>
+          ))}
           </div>
-        ))}
-      </div>
+        </>
+      )}
+
+      {currentView === 'rooms' && selectedBranchName && (
+        <>
+          <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
+            <button 
+              type="button"
+              onClick={() => {
+                // Remove query param so browser back navigates correctly
+                const nextQuery = { ...router.query } as Record<string, string | string[]>;
+                delete nextQuery.branch;
+                router.push({ pathname: router.pathname, query: nextQuery }, undefined, { shallow: true });
+                setCurrentView('branches');
+                setSelectedBranchName(null);
+              }}
+              style={{ padding: '0.5rem 1rem', background: '#e8a345', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+            >
+              ← Back to Branches
+            </button>
+            <h4 style={{ marginTop: '1rem', color: '#333' }}>Rooms at {selectedBranchName}</h4>
+          </div>
+          <div className={styles.roomsGrid}>
+            {branchRoomTypesMap[selectedBranchName]?.map((roomType, index) => (
+              <div
+                key={index}
+                className={`${styles.flipCard} ${styles.popIn} ${styles.cardFadeIn} ${isLoading ? styles.shimmer : ""}`}
+                style={{ animationDelay: `${index * 0.1}s` }}
+                onClick={() => handleRoomTypeSelect(roomType.name, roomType.price)}
+              >
+                <div className={`${styles.flipCardFront} ${styles.roomCardFront}`}>
+                  <Image
+                    className={styles.roomImage}
+                    src="/Images/room-1 1.png"
+                    alt={roomType.name}
+                    width={400}
+                    height={180}
+                  />
+                  <div className={`${styles.cardTitle} ${styles.roomCardTitle}`}>
+                    <h3>{roomType.name}</h3>
+                    <p className={styles.cardPrice}>₹{formatPrice(roomType.price)} onwards</p>
+                  </div>
+                  <div className={`${styles.amenitiesGrid} ${styles.roomCardAmenities}`}>
+                    {roomType.features.map((feature, idx) => (
+                      <span key={idx}>{feature}</span>
+                    ))}
+                  </div>
+                  <button className={styles.viewDetailsBtn}>
+                    Select Room
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
 
       {/* REMOVED: Corporate Section component from here */}
 
@@ -535,7 +665,7 @@ console.log("Branch",formData.branch);
             className={styles.modalOverlay}
             onClick={() => !formSubmitted && setShowBookingForm(false)}
           />
-          <div ref={modalRef} className={styles.modal}>
+          <div ref={modalRef} className={`${styles.modal} ${styles.modalCompact}`}>
             {formSubmitted ? (
               <div className={styles.successMessage}>
                 <h3>Thank You!</h3>
@@ -560,7 +690,7 @@ console.log("Branch",formData.branch);
 
                 <form
                   onSubmit={handleSubmitForm}
-                  className={styles.bookingForm}
+                  className={`${styles.bookingForm} ${styles.bookingFormCompact}`}
                 >
                   <div className={styles.formGroup}>
                     <label htmlFor="name">Full Name *</label>
@@ -632,7 +762,7 @@ console.log("Branch",formData.branch);
                     </select>
                   </div>
 
-                  <div className={styles.formRow}>
+                  <div className={`${styles.formRow} ${styles.fullWidth}`}>
                     <div className={styles.formGroup}>
                       <label htmlFor="checkInDate">Check-in Date *</label>
                       <input
@@ -676,20 +806,7 @@ console.log("Branch",formData.branch);
                     </div>
                   </div>
 
-                  <div className={styles.formGroup}>
-                    <label htmlFor="numberOfDays">Number of Days</label>
-                    <input
-                      type="number"
-                      id="numberOfDays"
-                      name="numberOfDays"
-                      value={formData.numberOfDays}
-                      onChange={handleInputChange}
-                      min="1"
-                      readOnly
-                    />
-                  </div>
-
-                  <div className={styles.formGroup}>
+                  <div className={`${styles.formGroup} ${styles.fullWidth}`}>
                     <label htmlFor="additionalQuery">
                       Additional Requests or Queries
                     </label>
@@ -698,11 +815,11 @@ console.log("Branch",formData.branch);
                       name="additionalQuery"
                       value={formData.additionalQuery}
                       onChange={handleInputChange}
-                      rows={3}
+                      rows={2}
                     />
                   </div>
 
-                  <div className={styles.formTotal}>
+                  <div className={`${styles.formTotal} ${styles.fullWidth}`}>
                     <span>Total Amount:</span>
                     <span>
                       ₹
@@ -713,7 +830,7 @@ console.log("Branch",formData.branch);
                     </span>
                   </div>
 
-                  <div className={styles.formButtons}>
+                  <div className={`${styles.formButtons} ${styles.fullWidth}`}>
                     <button
                       type="button"
                       className={styles.cancelButton}

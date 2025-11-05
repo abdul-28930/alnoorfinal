@@ -55,30 +55,42 @@ const BookNowDropdown = () => {
   });
   const [formErrors, setFormErrors] = useState<Partial<BookingFormData>>({});
 
-  // Room types data
-  const roomTypes: RoomType[] = [
-    {
-      name: "Deluxe Room",
-      price: "₹3,499/night",
-      features: ["1 King Bed", "Free WiFi", "Air Conditioning"],
-    },
-    {
-      name: "Premium Suite",
-      price: "₹4,299/night",
-      features: ["1 King Bed", "City View", "Free Breakfast"],
-      featured: true,
-    },
-    {
-      name: "Executive Room",
-      price: "₹3,799/night",
-      features: ["Twin Beds", "Work Desk", "Mini Bar"],
-    },
-    {
-      name: "Family Suite",
-      price: "₹5,299/night",
-      features: ["2 Beds", "Living Area", "Kitchenette"],
-    },
-  ];
+  // Branch-specific room types data
+  const branchRoomTypesMap: Record<string, RoomType[]> = {
+    "Triplicane Branch": [
+      { name: "Deluxe", price: "₹899/night", features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Quadruple", price: "₹1,999/night", features: ["2 Beds", "1 Bath", "Max 5 Pax"] },
+      { name: "Suite", price: "₹2,999/night", features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Triple", price: "₹1,499/night", features: ["2 Beds", "1 Bath", "Max 3 Pax"] }
+    ],
+    "Parrys Branch": [
+      { name: "Deluxe", price: "₹1,499/night", features: ["2 Beds", "2 Baths", "Max 4 Pax"] },
+      { name: "Standard", price: "₹799/night", features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
+    ],
+    "Electronic City Branch": [
+      { name: "Deluxe", price: "₹899/night", features: ["2 Beds", "1 Bath", "Max 3 Pax"] },
+      { name: "Deluxe Fam", price: "₹1,999/night", features: ["3 Beds", "1 Bath", "Max 4 Pax"] },
+      { name: "Deluxe Twin", price: "₹1,499/night", features: ["2 Beds", "1 Bath", "Max 4 Pax"] }
+    ],
+    "Hyderabad Branch": [
+      { name: "Classic", price: "₹899/night", features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Deluxe", price: "₹1,499/night", features: ["2 Beds", "1 Bath", "Max 3 Pax"] },
+      { name: "Suite", price: "₹1,999/night", features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
+    ],
+    "Koramangala Branch": [
+      { name: "Deluxe Double", price: "₹899/night", features: ["1 Bed", "1 Bath", "Max 3 Pax"] },
+      { name: "Deluxe Twin", price: "₹1,499/night", features: ["2 Beds", "1 Bath", "Max 2 Pax"] },
+      { name: "Junior Suite", price: "₹1,999/night", features: ["1 Bed", "1 Bath", "Max 3 Pax"] }
+    ],
+    "Ooty Branch": [
+      { name: "Deluxe", price: "₹1,499/night", features: ["2 Beds", "2 Baths", "Max 4 Pax"] },
+      { name: "Standard", price: "₹899/night", features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
+    ],
+    "Koyambedu Branch": [
+      { name: "Deluxe", price: "₹899/night", features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Deluxe Quad", price: "₹1,999/night", features: ["4 Beds", "1 Bath", "Max 8 Pax"] }
+    ]
+  };
 
   // Branch data - only these locations are available
   const branches: BranchData[] = [
@@ -90,15 +102,39 @@ const BookNowDropdown = () => {
     },
     {
       name: "Parrys Branch",
-      phone: "7338955111",
-      email: "booking@alnoorresidency.in",
+      phone: "7338944222",
+      email: "booking@alnoorpalace.in",
       price: 3799,
     },
     {
-      name: "Bengaluru Branch",
-      phone: "8951777883",
-      email: "booking.blr@alnoorpalace.in",
+      name: "Electronic City Branch",
+      phone: "7338944222",
+      email: "booking@alnoorpalace.in",
       price: 4299,
+    },
+    {
+      name: "Hyderabad Branch",
+      phone: "7338944222",
+      email: "booking@alnoorpalace.in",
+      price: 3999,
+    },
+    {
+      name: "Koramangala Branch",
+      phone: "7338944222",
+      email: "booking@alnoorpalace.in",
+      price: 4299,
+    },
+    {
+      name: "Ooty Branch",
+      phone: "7338944222",
+      email: "booking@alnoorpalace.in",
+      price: 3999,
+    },
+    {
+      name: "Koyambedu Branch",
+      phone: "7338944222",
+      email: "booking@alnoorpalace.in",
+      price: 3999,
     },
     {
       name: "Other", // Add "Other" option
@@ -377,7 +413,7 @@ const BookNowDropdown = () => {
 
   // Find the selected room type object
   const selectedRoomType = formData.roomType
-    ? roomTypes.find((room) => room.name === formData.roomType)
+    ? (selectedBranch ? (branchRoomTypesMap[selectedBranch.name] || []) : []).find((room) => room.name === formData.roomType)
     : null;
 
   return (
@@ -698,7 +734,7 @@ const BookNowDropdown = () => {
                       <span className={styles.required}>*</span>
                     </label>
                     <div className={styles.roomTypesGrid}>
-                      {roomTypes.map((room, index) => (
+                      {(selectedBranch ? (branchRoomTypesMap[selectedBranch.name] || []) : []).map((room, index) => (
                         <div
                           key={index}
                           className={
