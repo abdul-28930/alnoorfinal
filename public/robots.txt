@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
-Sitemap: https://alnoorpalace.in/sitemap.xml
+Sitemap: https://www.alnoorpalace.in/sitemap.xml
 
 Disallow: /api/
 
