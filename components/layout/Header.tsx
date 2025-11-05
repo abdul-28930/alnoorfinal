@@ -15,50 +15,48 @@ const branchInfo = [
   },
   {
     name: "Parrys Branch",
-    email: "booking@alnoorresidency.in",
+    email: "booking@alnoorpalace.in",
   },
   {
     name: "Bengaluru Branch",
-    email: "booking.blr@alnoorpalace.in",
+    email: "booking@alnoorpalace.in",
   },
 ];
 
 // Define branch-specific room types with prices
 const branchRoomTypes: Record<string, Record<string, number>> = {
   "Triplicane Chennai": {
-    "Deluxe": 1000,
-    "Quadruple": 2000,
-    "Suite": 3000
+    "Deluxe": 899,
+    "Quadruple": 1999,
+    "Suite": 2999,
+    "Triple": 1499
   },
   "Parrys Chennai": {
-    "Residential Suite": 3000,
-    "Standard Room": 2500
+    "Deluxe": 1499,
+    "Standard": 799
   },
   "Electronic City Bengaluru": {
-    "Deluxe Double": 1400,
-    "Deluxe Family Room": 2400,
-    "Deluxe Twin": 1800
+    "Deluxe": 899,
+    "Deluxe Fam": 1999,
+    "Deluxe Twin": 1499
   },
   "Hyderabad": {
-    "Classic": 1000,
-    "Deluxe": 1500,
-    "Suite": 2000
+    "Classic": 899,
+    "Deluxe": 1499,
+    "Suite": 1999
   },
   "Koramangala Bengaluru": {
-    "Deluxe Double": 1300,
-    "Deluxe Twin": 1000,
-    "Junior Suite": 1700
+    "Deluxe Double": 899,
+    "Deluxe Twin": 1499,
+    "Junior Suite": 1999
   },
   "Ooty": {
-    "Residential Suite": 3000,
-    "Standard Room": 2500
+    "Deluxe": 1499,
+    "Standard": 899
   },
   "Koyambedu Chennai": {
-    "Deluxe": 800,
-    "Deluxe Quad": 2000,
-    "Deluxe Triple": 1500,
-    "King Suite": 2500,
-    "Residential Suite": 3000
+    "Deluxe": 899,
+    "Deluxe Quad": 1999
   }
 };
 

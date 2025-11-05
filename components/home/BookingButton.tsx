@@ -18,14 +18,45 @@ const BookingButton: React.FC<BookingButtonProps> = ({
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleBookingSubmit = (bookingData: BookingData) => {
-    // Here you would typically send the booking data to your API
-    console.log("Booking submitted:", bookingData);
+  const handleBookingSubmit = async (bookingData: BookingData) => {
+    try {
+      // Calculate number of days
+      const checkIn = new Date(bookingData.checkInDate);
+      const checkOut = new Date(bookingData.checkOutDate);
+      const days = Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24));
 
-    // For now, just show a confirmation alert
-    alert(`Thank you for booking with Al Noor Hotel! 
-      Your booking for ${bookingData.roomType} has been received.
-      A confirmation email will be sent to ${bookingData.email}.`);
+      // Call API to send booking email
+      const response = await fetch("/api/send-booking", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          room_type: bookingData.roomType,
+          name: `${bookingData.firstName} ${bookingData.lastName}`,
+          phone: bookingData.phone,
+          email: bookingData.email,
+          branch: "Online Booking",
+          checkin: bookingData.checkInDate,
+          checkout: bookingData.checkOutDate,
+          days: days,
+          query: bookingData.specialRequests || "None",
+          isCorporateBooking: false,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send booking email");
+      }
+
+      // Show success message
+      alert(`Thank you for booking with Al Noor Hotel! 
+        Your booking for ${bookingData.roomType} has been received.
+        A confirmation email will be sent to ${bookingData.email}.`);
+    } catch (error) {
+      console.error("Booking API error:", error);
+      alert("Failed to send booking request. Please try again.");
+    }
   };
 
   // Define button styles based on variant

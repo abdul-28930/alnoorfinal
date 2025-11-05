@@ -66,32 +66,32 @@ const branches: BranchData[] = [
   },
   {
     name: "Parrys Branch",
-    phone: "7338955111",
-    email: "booking@alnoorresidency.in",
+    phone: "7338944222",
+    email: "booking@alnoorpalace.in",
   },
   {
     name: "Electronic City Branch",
-    phone: "8951777883",
+    phone: "7338944222",
     email: "booking@alnoorpalace.in",
   },
   {
     name: "Hyderabad Branch",
-    phone: "8951777883",
+    phone: "7338944222",
     email: "booking@alnoorpalace.in",
   },
   {
     name: "Koramangala Branch",
-    phone: "8951777883",
+    phone: "7338944222",
     email: "booking@alnoorpalace.in",
   },
   {
     name: "Ooty Branch",
-    phone: "8951777883",
+    phone: "7338944222",
     email: "booking@alnoorpalace.in",
   },
   {
     name: "Koyambedu Branch",
-    phone: "8951777883",
+    phone: "7338944222",
     email: "booking@alnoorpalace.in",
   },
 ];
@@ -226,39 +226,37 @@ const Rooms: React.FC<RoomsProps> = ({ rooms = defaultRooms, onBookNow }) => {
   // Branch-specific room types mapping
   const branchRoomTypesMap: Record<string, { name: string; price: number; features: string[] }[]> = {
     "Triplicane Branch": [
-      { name: "Deluxe", price: 1000, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
-      { name: "Quadruple", price: 2000, features: ["2 Beds", "1 Bath", "Max 5 Pax"] },
-      { name: "Suite", price: 3000, features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
+      { name: "Deluxe", price: 899, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Quadruple", price: 1999, features: ["2 Beds", "1 Bath", "Max 5 Pax"] },
+      { name: "Suite", price: 2999, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Triple", price: 1499, features: ["2 Beds", "1 Bath", "Max 3 Pax"] }
     ],
     "Parrys Branch": [
-      { name: "Residential Suite", price: 3000, features: ["2 Beds", "2 Baths", "Max 4 Pax"] },
-      { name: "Standard Room", price: 2500, features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
+      { name: "Deluxe", price: 1499, features: ["2 Beds", "2 Baths", "Max 4 Pax"] },
+      { name: "Standard", price: 799, features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
     ],
     "Electronic City Branch": [
-      { name: "Deluxe Double", price: 1400, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
-      { name: "Deluxe Family Room", price: 2400, features: ["2 Beds", "1 Bath", "Max 4 Pax"] },
-      { name: "Deluxe Twin", price: 1800, features: ["2 Beds", "1 Bath", "Max 3 Pax"] }
+      { name: "Deluxe", price: 899, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Deluxe Fam", price: 1999, features: ["2 Beds", "1 Bath", "Max 4 Pax"] },
+      { name: "Deluxe Twin", price: 1499, features: ["2 Beds", "1 Bath", "Max 3 Pax"] }
     ],
     "Hyderabad Branch": [
-      { name: "Classic", price: 1000, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
-      { name: "Deluxe", price: 1500, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
-      { name: "Suite", price: 2000, features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
+      { name: "Classic", price: 899, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Deluxe", price: 1499, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Suite", price: 1999, features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
     ],
     "Koramangala Branch": [
-      { name: "Deluxe Double", price: 1300, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
-      { name: "Deluxe Twin", price: 1000, features: ["2 Beds", "1 Bath", "Max 3 Pax"] },
-      { name: "Junior Suite", price: 1700, features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
+      { name: "Deluxe Double", price: 899, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Deluxe Twin", price: 1499, features: ["2 Beds", "1 Bath", "Max 3 Pax"] },
+      { name: "Junior Suite", price: 1999, features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
     ],
     "Ooty Branch": [
-      { name: "Residential Suite", price: 3000, features: ["2 Beds", "2 Baths", "Max 4 Pax"] },
-      { name: "Standard Room", price: 2500, features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
+      { name: "Deluxe", price: 1499, features: ["2 Beds", "2 Baths", "Max 4 Pax"] },
+      { name: "Standard", price: 899, features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
     ],
     "Koyambedu Branch": [
-      { name: "Deluxe", price: 800, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
-      { name: "Deluxe Quad", price: 2000, features: ["2 Beds", "1 Bath", "Max 4 Pax"] },
-      { name: "Deluxe Triple", price: 1500, features: ["2 Beds", "1 Bath", "Max 3 Pax"] },
-      { name: "King Suite", price: 2500, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
-      { name: "Residential Suite", price: 3000, features: ["2 Beds", "2 Baths", "Max 4 Pax"] }
+      { name: "Deluxe", price: 899, features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Deluxe Quad", price: 1999, features: ["2 Beds", "1 Bath", "Max 4 Pax"] }
     ]
   };
 

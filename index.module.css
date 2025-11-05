@@ -1132,6 +1132,14 @@
   color: #000000;
 }
 
+.contactInfo li svg {
+  flex-shrink: 0;
+}
+
+.contactInfo li .footerEmail {
+  margin-bottom: 0;
+}
+
 .newsletterText {
   color: #000000;
   margin-bottom: 1.5rem;

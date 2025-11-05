@@ -58,39 +58,37 @@ const BookNowDropdown = () => {
   // Branch-specific room types data
   const branchRoomTypesMap: Record<string, RoomType[]> = {
     "Triplicane Branch": [
-      { name: "Deluxe", price: "₹1,000/night", features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
-      { name: "Quadruple", price: "₹2,000/night", features: ["2 Beds", "1 Bath", "Max 5 Pax"] },
-      { name: "Suite", price: "₹3,000/night", features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
+      { name: "Deluxe", price: "₹899/night", features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Quadruple", price: "₹1,999/night", features: ["2 Beds", "1 Bath", "Max 5 Pax"] },
+      { name: "Suite", price: "₹2,999/night", features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Triple", price: "₹1,499/night", features: ["2 Beds", "1 Bath", "Max 3 Pax"] }
     ],
     "Parrys Branch": [
-      { name: "Residential Suite", price: "₹3,000/night", features: ["2 Beds", "2 Baths", "Max 4 Pax"] },
-      { name: "Standard Room", price: "₹2,500/night", features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
+      { name: "Deluxe", price: "₹1,499/night", features: ["2 Beds", "2 Baths", "Max 4 Pax"] },
+      { name: "Standard", price: "₹799/night", features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
     ],
     "Electronic City Branch": [
-      { name: "Deluxe Double", price: "₹1,400/night", features: ["2 Beds", "1 Bath", "Max 3 Pax"] },
-      { name: "Deluxe Family Room", price: "₹2,400/night", features: ["3 Beds", "1 Bath", "Max 4 Pax"] },
-      { name: "Deluxe Twin", price: "₹1,800/night", features: ["2 Beds", "1 Bath", "Max 4 Pax"] }
+      { name: "Deluxe", price: "₹899/night", features: ["2 Beds", "1 Bath", "Max 3 Pax"] },
+      { name: "Deluxe Fam", price: "₹1,999/night", features: ["3 Beds", "1 Bath", "Max 4 Pax"] },
+      { name: "Deluxe Twin", price: "₹1,499/night", features: ["2 Beds", "1 Bath", "Max 4 Pax"] }
     ],
     "Hyderabad Branch": [
-      { name: "Classic", price: "₹1,000/night", features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
-      { name: "Deluxe", price: "₹1,500/night", features: ["2 Beds", "1 Bath", "Max 3 Pax"] },
-      { name: "Suite", price: "₹2,000/night", features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
+      { name: "Classic", price: "₹899/night", features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Deluxe", price: "₹1,499/night", features: ["2 Beds", "1 Bath", "Max 3 Pax"] },
+      { name: "Suite", price: "₹1,999/night", features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
     ],
     "Koramangala Branch": [
-      { name: "Deluxe Double", price: "₹1,300/night", features: ["1 Bed", "1 Bath", "Max 3 Pax"] },
-      { name: "Deluxe Twin", price: "₹1,000/night", features: ["2 Beds", "1 Bath", "Max 2 Pax"] },
-      { name: "Junior Suite", price: "₹1,700/night", features: ["1 Bed", "1 Bath", "Max 3 Pax"] }
+      { name: "Deluxe Double", price: "₹899/night", features: ["1 Bed", "1 Bath", "Max 3 Pax"] },
+      { name: "Deluxe Twin", price: "₹1,499/night", features: ["2 Beds", "1 Bath", "Max 2 Pax"] },
+      { name: "Junior Suite", price: "₹1,999/night", features: ["1 Bed", "1 Bath", "Max 3 Pax"] }
     ],
     "Ooty Branch": [
-      { name: "Residential Suite", price: "₹3,000/night", features: ["2 Beds", "2 Baths", "Max 4 Pax"] },
-      { name: "Standard Room", price: "₹2,500/night", features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
+      { name: "Deluxe", price: "₹1,499/night", features: ["2 Beds", "2 Baths", "Max 4 Pax"] },
+      { name: "Standard", price: "₹899/night", features: ["1 Bed", "1 Bath", "Max 2 Pax"] }
     ],
     "Koyambedu Branch": [
-      { name: "Deluxe", price: "₹800/night", features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
-      { name: "Deluxe Quad", price: "₹2,000/night", features: ["4 Beds", "1 Bath", "Max 8 Pax"] },
-      { name: "Deluxe Triple", price: "₹1,500/night", features: ["3 Beds", "1 Bath", "Max 6 Pax"] },
-      { name: "King Suite", price: "₹2,500/night", features: ["2 Beds", "1 Bath", "Max 4 Pax"] },
-      { name: "Residential Suite", price: "₹3,000/night", features: ["2 Beds", "1 Bath", "Max 4 Pax"] }
+      { name: "Deluxe", price: "₹899/night", features: ["1 Bed", "1 Bath", "Max 2 Pax"] },
+      { name: "Deluxe Quad", price: "₹1,999/night", features: ["4 Beds", "1 Bath", "Max 8 Pax"] }
     ]
   };
 
@@ -104,37 +102,37 @@ const BookNowDropdown = () => {
     },
     {
       name: "Parrys Branch",
-      phone: "7338955111",
-      email: "booking@alnoorresidency.in",
+      phone: "7338944222",
+      email: "booking@alnoorpalace.in",
       price: 3799,
     },
     {
       name: "Electronic City Branch",
-      phone: "8951777883",
-      email: "booking.blr@alnoorpalace.in",
+      phone: "7338944222",
+      email: "booking@alnoorpalace.in",
       price: 4299,
     },
     {
       name: "Hyderabad Branch",
-      phone: "",
+      phone: "7338944222",
       email: "booking@alnoorpalace.in",
       price: 3999,
     },
     {
       name: "Koramangala Branch",
-      phone: "8951777883",
-      email: "booking.blr@alnoorpalace.in",
+      phone: "7338944222",
+      email: "booking@alnoorpalace.in",
       price: 4299,
     },
     {
       name: "Ooty Branch",
-      phone: "",
+      phone: "7338944222",
       email: "booking@alnoorpalace.in",
       price: 3999,
     },
     {
       name: "Koyambedu Branch",
-      phone: "",
+      phone: "7338944222",
       email: "booking@alnoorpalace.in",
       price: 3999,
     },

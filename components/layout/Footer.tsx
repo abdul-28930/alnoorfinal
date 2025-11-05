@@ -357,7 +357,7 @@ const Footer: React.FC<FooterProps> = ({
             Luxury accommodations with exceptional service. Experience the best
             in hospitality at Al Noor Hotels.
           </p>
-          <p className={styles.footerEmail}>booking@alnoorresidency.in</p>
+          <p className={styles.footerEmail}>booking@alnoorpalace.in</p>
           <div className={styles.footerSocials}>
             <a href="https://facebook.com/alnoorhotels" aria-label="Facebook">
               <Image
@@ -592,7 +592,6 @@ const Footer: React.FC<FooterProps> = ({
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                style={{ width: "3rem", height: "4rem", marginTop: "-1.5rem" }}
               >
                 <path
                   d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
@@ -610,8 +609,7 @@ const Footer: React.FC<FooterProps> = ({
                 />
               </svg>
               <span className={styles.footerEmail}>
-                booking@alnoorpalace.in, booking.blr@alnoorpalace.in,
-                booking@alnoorresidency.in
+                booking@alnoorpalace.in
               </span>
             </li>
           </ul>
