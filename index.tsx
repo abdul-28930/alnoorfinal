@@ -293,23 +293,23 @@ const LandingPage: NextPage = () => {
         <title>Al Noor Group of Hotels - Luxury Accommodations in Chennai, Bengaluru & More</title>
         <meta
           name="description"
-          content="Experience luxury accommodations across India at Al Noor Group of Hotels. Book rooms in Chennai (Triplicane, Parrys), Bengaluru, Hyderabad, Koramangala & Ooty. Premium service guaranteed."
+          content="Book the best hotels in Chennai, Triplicane, Parrys, Electronic City, Koramangala, Koyambedu, Hyderabad and Ooty. Enjoy affordable, budget-friendly rooms with premium service at Al Noor Group of Hotels."
         />
-        <meta name="keywords" content="hotels in chennai, hotels in bengaluru, hotels in hyderabad, hotels in ooty, luxury hotels india, budget hotels india, al noor hotels, triplicane hotels chennai, hotels in triplicane, parrys hotels chennai, hotels in parrys, hotels near parrys corner, electronic city hotels bangalore, hotels in electronic city, hotels near electronic city phase 1, koramangala hotels bangalore, hotels in koramangala, koyambedu hotels chennai, hotels in koyambedu, hotels near koyambedu bus stand, hyderabad hotels, budget hotels hyderabad, ooty hotels, hotels in ooty hill station, cheap hotels chennai, affordable hotels bangalore, ac rooms chennai, guest house chennai, lodge chennai triplicane, hotel booking india, online hotel booking, hotel near me" />
+        <meta name="keywords" content="best hotels in chennai, best hotels in triplicane, best hotels in parrys, best hotels in electronic city, best hotels in koramangala, best hotels in koyambedu, best hotels in hyderabad, best hotels in ooty, cheap hotels chennai, cheap hotels triplicane, cheap hotels parrys, affordable hotels chennai, affordable hotels bengaluru, affordable hotels electronic city, affordable hotels koramangala, budget hotels hyderabad, budget hotels ooty, family hotels chennai, business hotels bengaluru, hotel booking india, online hotel booking, hotel near me" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="canonical" href="https://alnoorpalace.in/" />
         
         {/* Open Graph Meta Tags */}
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Al Noor Group of Hotels - Luxury Accommodations" />
-        <meta property="og:description" content="Experience luxury accommodations and exceptional service at Al Noor Group of Hotels across India." />
+        <meta property="og:description" content="Stay at the best affordable hotels in Chennai, Bengaluru, Hyderabad and Ooty with Al Noor Group of Hotels." />
         <meta property="og:url" content="https://alnoorpalace.in/" />
         <meta property="og:image" content="https://alnoorpalace.in/Images/Finlogo.png" />
         
         {/* Twitter Card Meta Tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Al Noor Group of Hotels" />
-        <meta name="twitter:description" content="Luxury accommodations across India" />
+        <meta name="twitter:description" content="Book the best cheap and affordable hotels in every Al Noor location across India." />
         <meta name="twitter:image" content="https://alnoorpalace.in/Images/Finlogo.png" />
         
         {/* Structured Data */}
@@ -320,7 +320,7 @@ const LandingPage: NextPage = () => {
               "@context": "https://schema.org",
               "@type": "Hotel",
               "name": "Al Noor Group of Hotels",
-              "description": "Luxury hotel chain across India",
+              "description": "Best and most affordable hotels in Chennai, Triplicane, Parrys, Bengaluru, Hyderabad and Ooty",
               "url": "https://alnoorpalace.in",
               "telephone": "+91-7338944222",
               "address": {
