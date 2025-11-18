@@ -101,15 +101,15 @@ const HotelsPage = () => {
           <title>Our Hotels - Al Noor Group of Hotels Locations</title>
           <meta
             name="description"
-            content="Explore Al Noor Group of Hotels locations: Triplicane Chennai, Parrys Chennai, Electronic City Bengaluru, Hyderabad, Koramangala, Ooty. Premium rooms and services at every branch."
+            content="Find the best hotels in Triplicane, Parrys, Electronic City, Koramangala, Koyambedu, Hyderabad and Ooty. Affordable, budget-friendly rooms with premium amenities at every Al Noor branch."
           />
-          <meta name="keywords" content="al noor hotels locations, al noor palace hotels, hotels in triplicane chennai, triplicane hotels near me, hotels in parrys chennai, parrys corner hotels, hotels in electronic city bangalore, electronic city hotels near me, hotels in koramangala bangalore, koramangala hotels near me, hotels in koyambedu chennai, koyambedu hotels near bus stand, hotels in hyderabad, hyderabad budget hotels, hotels in ooty, ooty hill station hotels, chennai hotels list, bangalore hotels list, budget hotels chennai, cheap hotels bangalore, affordable hotels hyderabad, hotel branches india, hotel locations india" />
+          <meta name="keywords" content="best hotels in triplicane, cheap hotels in triplicane, best hotels in parrys, cheap hotels in parrys, best hotels in electronic city, affordable hotels in electronic city, best hotels in koramangala, budget hotels in koramangala, best hotels in koyambedu, cheap hotels in koyambedu, best hotels in hyderabad, affordable hotels in hyderabad, best hotels in ooty, cheap ooty hotels, al noor hotels locations, budget hotels india" />
           <link rel="canonical" href="https://alnoorpalace.in/hotels" />
           
           {/* Open Graph Meta Tags */}
           <meta property="og:type" content="website" />
           <meta property="og:title" content="Our Hotels - Al Noor Group" />
-          <meta property="og:description" content="Discover our luxury hotel locations across India" />
+          <meta property="og:description" content="Discover the best and most affordable Al Noor hotels across Triplicane, Parrys, Bengaluru, Hyderabad and Ooty." />
           <meta property="og:url" content="https://alnoorpalace.in/hotels" />
           <meta property="og:image" content="https://alnoorpalace.in/Images/Finlogo.png" />
           
